@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, TouchableHighlight, Text, StyleSheet } 
 
 const defaultColor = '#737373';
 const defaultBgColor = '#fff';
-const defaultSelectedColor = "#2a2a2a";
+const defaultSelectedColor = "#50d2c2";
 const defaultSelectedBgColor = "#ffffff";
 const defaultSize = 16;
 
