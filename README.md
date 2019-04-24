@@ -1,4 +1,4 @@
-# react-native-cn-richtext-editor
+# FORK - react-native-cn-richtext-editor
 
 Richtext editor for react native
 
