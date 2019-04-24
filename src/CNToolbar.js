@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
-import {
-  View, TouchableWithoutFeedback, TouchableHighlight, Text, StyleSheet,
-} from 'react-native';
+import { View, TouchableWithoutFeedback, TouchableHighlight, Text, StyleSheet } from 'react-native';
 
 const defaultColor = '#737373';
 const defaultBgColor = '#fff';
-const defaultSelectedColor = '#2a2a2a';
-const defaultSelectedBgColor = '#e4e4e4';
+const defaultSelectedColor = "#2a2a2a";
+const defaultSelectedBgColor = "#ffffff";
 const defaultSize = 16;
 
 class CNToolbar extends Component {
-  constructor(props) {
-    super(props);
-  }
 
-  onStyleKeyPress(toolItem) {
-    if (this.props.onStyleKeyPress) this.props.onStyleKeyPress(toolItem);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  renderStyleButtons(size, color, bgColor, selectedColor, selectedBgColor) {
-    const {
-      selectedStyles, selectedTag, bold, iconContainerStyle,
-      italic,
-      underline,
-      lineThrough,
-    } = this.props;
-    const iconStyles = [styles.iconContainer, iconContainerStyle];
-    return (
-      <View style={[styles.iconSetContainer, { flexGrow: 4 }]}>
+    onStyleKeyPress(toolItem) {
+        if (this.props.onStyleKeyPress)
+            this.props.onStyleKeyPress(toolItem);
+    }
+
+    renderStyleButtons(size, color, bgColor, selectedColor, selectedBgColor) {
+        const { selectedStyles, selectedTag, bold, iconContainerStyle,
+            italic,
+            underline,
+            lineThrough } = this.props;
+        const iconStyles = [styles.iconContainer, iconContainerStyle]
+        return (
+            <View style={[styles.iconSetContainer, { flexGrow: 2, marginLeft: 20 }]}>
         {
                     bold
                       ? (
