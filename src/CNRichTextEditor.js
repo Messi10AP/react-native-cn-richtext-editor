@@ -552,6 +552,7 @@ class CNRichTextEditor extends Component {
             ref={view => this.scrollview = view}
             onScroll={measureInputScroll && IS_IOS ? this.onScroll : undefined}
             scrollEventThrottle={16}
+            keyboardDismissMode="on-drag"
             contentContainerStyle={[{
               flexGrow: 1,
               alignContent: 'flex-start',
