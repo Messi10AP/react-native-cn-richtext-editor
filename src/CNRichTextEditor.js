@@ -539,7 +539,7 @@ class CNRichTextEditor extends Component {
         value, style, contentContainerStyle, measureInputScroll = true,
       } = this.props;
       const styleList = this.props.styleList ? this.props.styleList : defaultStyles;
-
+      const dismissMode = IS_IOS ? "on-drag" : "none";
       return (
         <View
           style={[{
@@ -552,7 +552,7 @@ class CNRichTextEditor extends Component {
             ref={view => this.scrollview = view}
             onScroll={measureInputScroll && IS_IOS ? this.onScroll : undefined}
             scrollEventThrottle={16}
-            keyboardDismissMode="on-drag"
+            keyboardDismissMode={dismissMode}
             contentContainerStyle={[{
               flexGrow: 1,
               alignContent: 'flex-start',
