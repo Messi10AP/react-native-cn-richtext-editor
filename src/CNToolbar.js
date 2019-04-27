@@ -25,7 +25,7 @@ class CNToolbar extends Component {
             lineThrough } = this.props;
         const iconStyles = [styles.iconContainer, iconContainerStyle]
         return (
-            <View style={[styles.iconSetContainer, { flexGrow: 2, marginLeft: 20 }]}>
+            <View style={[styles.iconSetContainer, { flexGrow: 2, marginLeft: 35 }]}>
         {
                     bold
                       ? (
@@ -125,7 +125,7 @@ class CNToolbar extends Component {
     const iconStyles = [styles.iconContainer, iconContainerStyle];
 
     return (
-      <View style={[styles.iconSetContainer, { flexGrow: 5 }]}>
+      <View style={[styles.iconSetContainer, { flexGrow: 1, marginLeft: 10 }]}>
         {body
           ? (
             <TouchableWithoutFeedback
@@ -244,7 +244,7 @@ class CNToolbar extends Component {
     } = this.props;
     const iconStyles = [styles.iconContainer, iconContainerStyle];
     return (
-      <View style={[styles.iconSetContainer, { flexGrow: 2 }]}>
+      <View style={[styles.iconSetContainer, { flexGrow: 2, marginLeft: 15 }]}>
         {
                     image
                       ? (
