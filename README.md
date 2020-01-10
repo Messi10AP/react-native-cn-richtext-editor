@@ -17,6 +17,12 @@ npm i react-native-cn-richtext-editor
 ```
 yarn add react-native-cn-richtext-editor
 ```
+
+### Pre-Release
+
+Please check out our new `CNEditor` editor designed with `react-native-webview` in pre-relase version [2.0.0-rc1](https://github.com/imnapo/react-native-cn-richtext-editor/releases/tag/2.0.0-rc1). You may install it using `npm i react-native-cn-richtext-editor@next`.
+For more information about how to use this pre-release you may read [README](https://github.com/imnapo/react-native-cn-richtext-editor/blob/next/README.md#installation) and check [expo-demo](https://github.com/imnapo/react-native-cn-richtext-editor/blob/next/expo-demo/App.js) project in the `next` branch.
+
 ### Usage
 
 Here is a simple overview of our components usage.
@@ -101,20 +107,84 @@ class App extends Component {
                 }}>
 
                     <CNToolbar
-                        size={28}
-                        bold={<Text style={[styles.toolbarButton, styles.boldButton]}>B</Text>}
-                        italic={<Text style={[styles.toolbarButton, styles.italicButton]}>I</Text>}
-                        underline={<Text style={[styles.toolbarButton, styles.underlineButton]}>U</Text>}
-                        lineThrough={<Text style={[styles.toolbarButton, styles.lineThroughButton]}>S</Text>}
-                        body={<Text style={styles.toolbarButton}>T</Text>}
-                        title={<Text style={styles.toolbarButton}>h1</Text>}
-                        heading={<Text style={styles.toolbarButton}>h3</Text>}
-                        ul={<Text style={styles.toolbarButton}>ul</Text>}
-                        ol={<Text style={styles.toolbarButton}>ol</Text>}
-                        
-                        selectedTag={this.state.selectedTag}
-                        selectedStyles={this.state.selectedStyles}
-                        onStyleKeyPress={this.onStyleKeyPress} />
+                                style={{
+                                    height: 35,
+                                }}
+                                iconSetContainerStyle={{
+                                    flexGrow: 1,
+                                    justifyContent: 'space-evenly',
+                                    alignItems: 'center',
+                                }}
+                                size={30}
+                                iconSet={[
+                                    {
+                                        type: 'tool',
+                                        iconArray: [{
+                                            toolTypeText: 'image',
+                                            iconComponent:
+                                                <Text style={styles.toolbarButton}>
+                                                image
+                                                </Text>
+                                        }]
+                                    },
+                                    {
+                                        type: 'tool',
+                                        iconArray: [{
+                                            toolTypeText: 'bold',
+                                            buttonTypes: 'style',
+                                            iconComponent:
+                                                <Text style={styles.toolbarButton}>
+                                                bold
+                                                </Text>
+                                        }]
+                                    },
+                                    {
+                                        type: 'seperator'
+                                    },
+                                    {
+                                        type: 'tool',
+                                        iconArray: [
+                                            {
+                                                toolTypeText: 'body',
+                                                buttonTypes: 'tag',
+                                                iconComponent:
+                                                    <Text style={styles.toolbarButton}>
+                                                    body
+                                                    </Text>
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        type: 'tool',
+                                        iconArray: [
+                                            {
+                                                toolTypeText: 'ul',
+                                                buttonTypes: 'tag',
+                                                iconComponent:
+                                                    <Text style={styles.toolbarButton}>
+                                                    ul
+                                                    </Text>
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        type: 'tool',
+                                        iconArray: [
+                                            {
+                                                toolTypeText: 'ol',
+                                                buttonTypes: 'tag',
+                                                iconComponent:
+                                                    <Text style={styles.toolbarButton}>
+                                                    ol
+                                                    </Text>
+                                            }
+                                        ]
+                                    },
+                                ]}
+                                selectedTag={this.state.selectedTag}
+                                selectedStyles={this.state.selectedStyles}
+                                onStyleKeyPress={this.onStyleKeyPress}
+                            />
                 </View>
         </KeyboardAvoidingView>
         );
@@ -184,9 +254,12 @@ Also be noticed that this example is writen with expo and required 'react-native
 | styleList  | an object consist of styles name and values (use getDefaultStyles function) | Yes |
 | ImageComponent | a React component (class or functional) which will be used to render images. Will be passed `style` and `source` props. | No |
 | style | Styles applied to the outermost component. | No |
+| textInputStyle | TextInput style | No |
 | contentContainerStyle | Styles applied to the scrollview content. | No |
 | onFocus    | Callback that is called when one of text inputs are focused. | No |
 | onBlur    | Callback that is called when one of text inputs are blurred. | No |
+| placeholder    | The string that will be rendered before text input has been entered. | No |
+| textInputProps   | An object containing additional props to be passed to the TextInput component| No |
 
 #### Instance methods
 
@@ -206,23 +279,25 @@ Also be noticed that this example is writen with expo and required 'react-native
 | selectedStyles | Yes | selected style of the editor |
 | onStyleKeyPress    |  Yes | this event triggers when user press one of toolbar keys |
 |  size  | No  | font size of toolbar buttons  |
-| bold  |  No | a component which renders as bold button |
-|  italic | No  | a component which renders as italic button   |
-| underline  | No  | a component which renders as underline button  |
-| lineThrough  | No  | a component which renders as lineThrough button  |
-| body  | No  | a component which renders as body button |
-| title  | No  | a component which renders as title button   |
-| ul  | No  | a component which renders as ul button |
-| ol  | No  | a component which renders as ol button |
-| image  | No  | a component which renders as image button |
-| highlight  | No  | a component which renders as highlight button |
-| foreColor  | No  | a component which renders as foreColor button |
+| bold  |  No | a component which renders as bold button (as of 1.0.41, this prop is deprecated) |
+|  italic | No  | a component which renders as italic button (as of 1.0.41, this prop is deprecated)   |
+| underline  | No  | a component which renders as underline button (as of 1.0.41, this prop is deprecated)  |
+| lineThrough  | No  | a component which renders as lineThrough button (as of 1.0.41, this prop is deprecated)  |
+| body  | No  | a component which renders as body button (as of 1.0.41, this prop is deprecated) |
+| title  | No  | a component which renders as title button (as of 1.0.41, this prop is deprecated)   |
+| ul  | No  | a component which renders as ul button (as of 1.0.41, this prop is deprecated) |
+| ol  | No  | a component which renders as ol button (as of 1.0.41, this prop is deprecated) |
+| image  | No  | a component which renders as image button (as of 1.0.41, this prop is deprecated) |
+| highlight  | No  | a component which renders as highlight button (as of 1.0.41, this prop is deprecated) |
+| foreColor  | No  | a component which renders as foreColor button (as of 1.0.41, this prop is deprecated) |
 | style | No | style applied to container |
 | color | No | default color passed to icon |
 | backgroundColor | No | default background color passed to icon |
 | selectedColor | No | color applied when icon is selected |
 | selectedBackgroundColor | No | background color applied when icon is selected |
 | iconContainerStyle | No | a style prop assigned to icon container |
+| iconSet | Yes | array of icons to display |
+| iconSetContainerStyle | No | a style props assigned to icon set container|
 
 ### CNRichTextView
 

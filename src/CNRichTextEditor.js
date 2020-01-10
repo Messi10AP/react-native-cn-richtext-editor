@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 import update from 'immutability-helper';
-import { getInitialObject, defaultStyles } from './Convertors';
+import { getInitialObject, getDefaultStyles } from './Convertors';
 import CNTextInput from './CNTextInput';
 
 const shortid = require('shortid');
@@ -38,16 +38,14 @@ class CNRichTextEditor extends Component {
       this.focusOnNextUpdate = -1;
       this.selectionOnFocus = null;
       this.scrollOffset = 0;
-    }
-
-    componentDidMount() {
-
+      this.defaultStyles = getDefaultStyles();
     }
 
     componentDidUpdate(prevProps, prevState) {
       if (this.focusOnNextUpdate != -1 && this.textInputs.length > this.focusOnNextUpdate) {
         const ref = this.textInputs[this.focusOnNextUpdate];
-        ref.focus(this.selectionOnFocus);
+         if(ref) ref.focus(this.selectionOnFocus);
+        this.setState({focusInputIndex: this.focusOnNextUpdate});
         this.focusOnNextUpdate = -1;
         this.selectionOnFocus = null;
       }
@@ -225,7 +223,7 @@ class CNRichTextEditor extends Component {
       };
 
       let newConents = value;
-      if (newConents[index - 1].component === 'text') {
+      if (newConents[index - 1] && newConents[index - 1].component === 'text') {
         const { before, after } = this.textInputs[index - 1].splitItems();
 
         if (Array.isArray(before) && before.length > 0) {
@@ -383,11 +381,15 @@ class CNRichTextEditor extends Component {
     }
 
     onSelectedStyleChanged = (styles) => {
-      this.props.onSelectedStyleChanged(styles);
+      if (this.props.onSelectedStyleChanged) {
+        this.props.onSelectedStyleChanged(styles);
+      }
     }
 
     onSelectedTagChanged = (tag) => {
-      this.props.onSelectedTagChanged(tag);
+      if (this.props.onSelectedTagChanged) {
+        this.props.onSelectedTagChanged(tag);
+      }
     }
 
     handleMeasureContentChanged = (content) => {
@@ -402,7 +404,7 @@ class CNRichTextEditor extends Component {
     }
 
     renderInput(input, index, isLast, measureScroll = true) {
-      const styles = this.props.styleList ? this.props.styleList : defaultStyles;
+      const styles = this.props.styleList ? this.props.styleList : this.defaultStyles;
       return (
         <View
           key={input.id}
@@ -424,9 +426,11 @@ class CNRichTextEditor extends Component {
             returnKeyType={this.props.returnKeyType}
             foreColor={this.props.foreColor}
             styleList={styles}
-            style={{
+            placeholder={index === 0 ? this.props.placeholder : undefined}
+            textInputProps={this.props.textInputProps}
+            style={[{
               flexGrow: 1,
-            }
+            }, this.props.textInputStyle]
                     }
           />
         </View>
@@ -434,9 +438,23 @@ class CNRichTextEditor extends Component {
     }
 
     renderImage(image, index) {
-      const { width, height } = image.size;
-      const myHeight = (this.state.layoutWidth - 4 < width) ? height * ((this.state.layoutWidth - 4) / width) : height;
-      const myWidth = (this.state.layoutWidth - 4 < width) ? this.state.layoutWidth - 4 : width;
+      let { width, height } = image.size;
+      let myHeight, myWidth;
+
+      if(typeof width === 'undefined' && typeof height === 'undefined'){
+        width = 500;
+        height = 200;
+        Image.getSize(image.url, (width, height) => {
+          width = width;
+          height = height;
+          myHeight = (this.state.layoutWidth - 4 < width) ? height * ((this.state.layoutWidth - 4) / width) : height;
+          myWidth = (this.state.layoutWidth - 4 < width) ? this.state.layoutWidth - 4 : width;
+        });
+      }
+      
+      myHeight = (this.state.layoutWidth - 4 < width) ? height * ((this.state.layoutWidth - 4) / width) : height;
+      myWidth = (this.state.layoutWidth - 4 < width) ? this.state.layoutWidth - 4 : width;
+      
       const { ImageComponent = Image } = this.props;
       return (
         <View
@@ -538,7 +556,7 @@ class CNRichTextEditor extends Component {
       const {
         value, style, contentContainerStyle, measureInputScroll = true,
       } = this.props;
-      const styleList = this.props.styleList ? this.props.styleList : defaultStyles;
+      const styleList = this.props.styleList ? this.props.styleList : this.defaultStyles;
       return (
         <View
           style={[{
